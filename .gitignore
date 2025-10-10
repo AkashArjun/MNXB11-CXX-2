@@ -39,3 +39,10 @@
 
 # debug information files
 *.dwo
+
+#vim swap files
+*.swp
+*~
+
+# build
+build/
