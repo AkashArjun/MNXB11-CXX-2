@@ -1,0 +1,35 @@
+name: C++ CI with caching
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y cmake g++ ninja-build
+
+    - name: Restore Catch2 cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          build/_deps
+          build/_deps
+        key: catch2-v3.5.4
+
+    - name: Configure CMake
+      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Run tests
+      run: ctest --test-dir build --output-on-failure
