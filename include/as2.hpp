@@ -39,10 +39,28 @@ namespace homework {
   // The attack should use std::cout to print something like "<name> swings a <weapon>\n"
   // The setWeapon() method should set the weapon variable (the private member variable) 
 
+    struct Knight : public Entity {
+      explicit Knight(const std::string& name);
+      void setWeapon(const std::string& weapon);
+      void attack() const override;
+      std::unique_ptr<Entity> clone() const override;
+    private:
+      std::string weapon_;
+  };
+
   // as 2.2
   // Derived class Sorcerer
   // TO DO: implement attack() and clone() and setAbility()
   // Same as the Knight class
+
+  struct Sorcerer : public Entity {
+      explicit Sorcerer(const std::string& name);
+      void setAbility(const std::string& ability);
+      void attack() const override;
+      std::unique_ptr<Entity> clone() const override;
+    private:
+      std::string ability_;
+  };
 
   // as 2.3 (This is a stretch goal, hand it in, and if it does not work, you can still pass the assignment)
   // Duel class template
@@ -53,6 +71,15 @@ namespace homework {
   // - randomly select one of the two entities as the winner (use the random number generator above)
   // - print to std::cout "<name> wins the duel!\n"
   // - return a std::unique_ptr<Entity> to the winner (use clone() to copy the object)
+
+  template <typename T1, typename T2>
+  struct Duel {
+      Duel(T1* a, T2* b);
+      std::unique_ptr<Entity> fight(); // calls attack(), picks a winner, prints, returns clone
+    private:
+      T1* a_;
+      T2* b_;
+  };
 
 } // namespace homework
 
